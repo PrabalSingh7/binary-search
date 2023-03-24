@@ -1,0 +1,93 @@
+1283. Find the Smallest Divisor Given a Threshold
+Medium
+2K
+165
+Companies
+Given an array of integers nums and an integer threshold, we will choose a positive integer divisor, divide all the array by it, and sum the division's result. Find the smallest divisor such that the result mentioned above is less than or equal to threshold.
+
+Each result of the division is rounded to the nearest integer greater than or equal to that element. (For example: 7/3 = 3 and 10/2 = 5).
+
+The test cases are generated so that there will be an answer.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,5,9], threshold = 6
+Output: 5
+Explanation: We can get a sum to 17 (1+2+5+9) if the divisor is 1. 
+If the divisor is 4 we can get a sum of 7 (1+1+2+3) and if the divisor is 5 the sum will be 5 (1+1+1+2). 
+Example 2:
+
+Input: nums = [44,22,33,11,1], threshold = 5
+Output: 44
+ 
+
+Constraints:
+
+1 <= nums.length <= 5 * 104
+1 <= nums[i] <= 106
+nums.length <= threshold <= 106
+Accepted
+106.3K
+Submissions
+189.5K
+Acceptance Rate
+56.1%
+
+
+
+Binary Search || C++ || Explained
+_prabal_singh_
+100 Days Badge 2022
+13
+a few seconds ago
+Intuition
+Binary Search in a Seacrh Space .
+
+Approach
+We will decide the search space : low=1 & high = max in nums
+Then we will perform binary search over it. In which for each mid value we will evaluate the divisonSum value by :
+sum += (num%mid) == 0 ? num/mid : num/mid+1; for all values in nums
+download (2).jfif
+
+Complexity
+Time complexity : O(n logn)
+Space complexity : O(1)
+Code
+class Solution {
+public:
+    int smallestDivisor(vector<int>& nums, int threshold) {
+        int n = nums.size();
+        
+        int res = 1e9+1;
+        int l=1, h=-1e9;
+
+        for(auto i : nums)  
+            h = max(h,i);
+        
+
+        while(l<=h) {
+            int mid = l+((h-l)/2);
+            int sum=0;
+
+            for(auto num : nums)  
+                sum += (num%mid) == 0 ? num/mid : num/mid+1;
+            
+            if(sum<=threshold)  {
+                res = min(mid,res);
+                h = mid - 1;
+            }
+            else    {
+                l = mid + 1;
+            }
+        }
+
+        return res==1e9+1 ? -1 : res;        
+    }
+};
+images.jfif
+
+0
+0
+
